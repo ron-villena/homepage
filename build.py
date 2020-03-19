@@ -11,10 +11,10 @@ template_resume = open('./content/resume.html').read()
 
 # Create resume.html
 resume_html = template_top + template_resume + template_bottom
-open('./docs/index.html', 'w+').write(resume_html)
+open('./docs/resume.html', 'w+').write(resume_html)
 
 template_blog = open('./content/blog.html').read()
 
 # Create blog.html
 blog_html = template_top + template_blog + template_bottom
-open('./docs/index.html', 'w+').write(blog_html)
+open('./docs/blog.html', 'w+').write(blog_html)
