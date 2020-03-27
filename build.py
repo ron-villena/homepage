@@ -1,6 +1,11 @@
-template_top = open('./templates/template_top.html').read()
-template_bottom = open('./templates/template_bottom.html').read()
+# old template
+# template_top = open('./templates/template_top.html').read()
+# template_bottom = open('./templates/template_bottom.html').read()
 
+# Base template: Consists of header and footer for pages (static)
+template_base = open('./templates/base.html').read()
+
+# Page list - Includes list of different content per page, url and title
 pages = [
     {
         'filename': './content/index.html',
@@ -19,16 +24,21 @@ pages = [
     }
 ]
 
+# Main method: Cycles through different page in pages list
 def main():
     for page in pages:
         create_page(page)
 
+# Method: creates actual page; param: dict for specific page
 def create_page(page_dic):
     open(page_dic['output'], 'w+').write(assemble_page(page_dic['filename']))
 
+# Method: combines base and content template; param: content html code
 def assemble_page(middle_filename):
     template_middle = open(middle_filename).read()
-    complete_html = template_top + template_middle + template_bottom
+    # print(template_middle)
+    # print(template_base)
+    complete_html = template_base.replace("{{content}}", template_middle)
     return complete_html
 
 
