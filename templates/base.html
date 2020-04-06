@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-  <title>{{title}}</title>
+  <title>{{ title }}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Latest compiled and minified CSS -->
@@ -34,7 +34,11 @@
   <!-- NavBar - Bootstrap Control -->
   <nav class="navbar navsbav bg-dark navbar-dark">
     <!-- Brand -->
-    <a class="navbar-brand" href="#">{{title}}</a>
+    {% if title == 'index' %}
+      <a class="navbar-brand" href="#">About Me</a>
+    {% else %}
+      <a class="navbar-brand" href="#">My {{ title|capitalize }}</a>
+    {% endif %}
 
     <!-- Toggler/collapsibe Button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -43,15 +47,29 @@
 
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav">
+      {% for page in pages %}
         <li class="nav-item">
-          <a class="nav-link{{navbar_index_action}}" href="./index.html">About</a>
+        {% if title == page['page_name'] %}
+          {% if page['page_name'] == 'index' %}
+            <a class="nav-link{{ navbar_active }}" href="./{{ page['page_name'] }}.html">About Me</a>
+          {% else %}
+            <a class="nav-link{{ navbar_active }}" href="./{{ page['page_name'] }}.html">My {{ page['page_name']|capitalize }}</a>
+          {% endif %}
+        {% else %}
+          {% if page['page_name'] == 'index' %}
+            <a class="nav-link{{ non_active }}" href="./{{ page['page_name'] }}.html">About Me</a>
+          {% else %}
+            <a class="nav-link{{ non_active }}" href="./{{ page['page_name'] }}.html">My {{ page['page_name']|capitalize }}</a>
+          {% endif %}
+        {% endif %}
         </li>
-        <li class="nav-item">
+      {% endfor %}
+        <!-- <li class="nav-item">
           <a class="nav-link{{navbar_resume_action}}" href="./resume.html">Resume</a>
         </li>
         <li class="nav-item">
           <a class="nav-link{{navbar_blog_action}}" href="./blog.html">Blog</a>
-        </li>
+        </li> -->
      </ul>
     </div>
   </nav>
@@ -66,7 +84,35 @@
       </ul>
       <!-- The slideshow -->
       <div class="carousel-inner">
-        <div class="carousel-item{{carousel_index_action}}">
+        {% for page in pages %}
+          {% if title == page['page_name'] %}
+            <div class="carousel-item{{ carousel_active }}">
+          {% else %}
+            <div class="carousel-item{{ non_active }}">
+          {% endif %}
+            {% if page['page_name'] == 'index' %}
+              <img src="./img/about.png" alt="About Me">
+            {% else %}
+              <img src="./img/{{ page['page_name'] }}.png" alt="{{ page['page_name']|capitalize }}">
+            {% endif %}
+              <div class="centered">
+                <div class="row">
+                  <h1>{{ page['carousel']['carousel_header'] }}</h1>
+                </div>
+                <div class="row">
+                  <h3>{{ page['carousel']['carousel_desc'] }}</h3>
+                </div>
+                <div class="row">
+                  {% if title == page['page_name'] %}
+                    <a href="{{ bottom_link }}">Show Me Now</a>
+                  {% else %}
+                    <a href="./{{ page['page_name'] }}.html">Show Me</a>
+                  {% endif %}
+                </div>
+              </div>
+          </div>
+        {% endfor %}
+        <!-- <div class="carousel-item{{carousel_index_action}}">
           <img src="./img/about.png" alt="About">
           <div class="centered">
             <div class="row">
@@ -107,7 +153,7 @@
               <a href="{{carousel_link_blog_action}}">{{carousel_link_verbiage_blog_action}}</a>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <!-- Left and right controls -->
       <a class="carousel-control-prev" href="#demo" data-slide="prev">
@@ -118,7 +164,7 @@
       </a>
     </div>
     <br>
-{{content}}
+{{ content }}
 <div class="row footer">
   <div class="col=3">
   </div>
